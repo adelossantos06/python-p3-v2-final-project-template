@@ -1,6 +1,6 @@
 # lib/helpers.py
 
-def helper_1():
+def helper_11():
     print("Performing useful function#1.")
 
 
