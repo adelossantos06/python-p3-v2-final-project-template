@@ -1,11 +1,15 @@
 # from models.__init__ import CURSOR, CONN
 
 class Author:
+
+    all = []
     
     def __init__(self, name, age, genre):
         self._name = name
         self._age = age
         self._genre = genre
+
+        Author.all.append(self)
 
     
     @property
@@ -38,7 +42,7 @@ class Author:
         else:
             raise  ValueError("Enter a valid genre")
 
-    def __str__(self):
+    def __repr__(self):
         return f"Name: {self.name}, Age: {self.age}, Genre: {self.genre}"
 
 author = Author("Stephen King", 76, "horror")
@@ -48,6 +52,7 @@ print(author.name)
 print(author.age)
 print(author.genre)
 print(author)
+print(Author.all)
 
     # @classmethod
     # def create_table(cls):
