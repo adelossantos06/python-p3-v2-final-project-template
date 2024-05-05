@@ -1,4 +1,4 @@
-from __init__ import CURSOR, CONN
+from models.__init__ import CURSOR, CONN
 
 class Author:
 
@@ -10,7 +10,7 @@ class Author:
         self.id = id
        
         
-        # Author.all.append(self)
+        Author.all.append(self)
 
     
     @property
@@ -36,12 +36,12 @@ class Author:
     def genre(self):
         return self._genre
     
-    # @classmethod
-    # def get_all_authors(cls):
-    #     return Author.all
+    @classmethod
+    def get_all_authors(cls):
+        return Author.all
 
     def __repr__(self):
-        return f"Name: {self.name}, Age: {self.age}"
+        return f"Id:{self.id}  Name: {self.name}, Age: {self.age}"
     
     @classmethod
     def create_table(cls):
@@ -74,12 +74,27 @@ class Author:
 
         self.id = CURSOR.lastrowid
 
-# print(author.name)
-# print(author.age)
-# print(author.genre)
-# print(author)
-# print(Author.all)
+    @classmethod
+    def create(cls, name, age):
+        author = cls(name, age)
+        author.save()
+        return author
 
+    def update(self):
+        sql = """
+            UPDATE authors
+            SET name = ?, age = ?
+            WHERE id = ?
+        """
 
+        CURSOR.execute(sql, (self.name, self.age, self.id))
+        CONN.commit()
 
- 
+    def delete(self):
+        sql = """
+            DELETE FROM authors
+            WHERE id = ?
+        """
+
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()

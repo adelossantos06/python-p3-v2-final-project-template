@@ -63,14 +63,14 @@ class Book:
         return Book.all
     
     def __repr__(self):
-        return f"Title: {self.title}, Author: {self.author.name}, page_count: {self.page_count}, Genre: {self.genre}"
+        return f"Title: {self.title}, Author: {self.author}, page_count: {self.page_count}, Genre: {self.genre}"
     
     @classmethod
     def create_table(cls):
         sql = """
             CREATE TABLE IF NOT EXISTS books(
                 id INTEGER PRIMARY KEY,
-                tilte TEXT,
+                title TEXT,
                 page_count INTEGER,
                 genre TEXT,
                 author TEXT
@@ -78,11 +78,25 @@ class Book:
         """
         CURSOR.execute(sql)
         CONN.commit()
-        
+
+    @classmethod  
     def drop_table(cls):
         sql = """
-            DROP TABLE IF EXISTS books;
+            DROP TABLE IF EXISTS books
         """
         CURSOR.execute(sql)
         CONN.commit()
 
+    def save(self):
+        sql = """
+            INSERT INTO books (title, page_count, genre, author)
+            VALUES (?, ?, ?, ?)
+        """
+        CURSOR.execute(sql, (self.title, self.page_count, self.genre, self.author))
+        CONN.commit()
+
+    @classmethod
+    def create(cls, title, page_count, genre, author):
+        book = cls(title, page_count, genre, author)
+        book.save()
+        return book
