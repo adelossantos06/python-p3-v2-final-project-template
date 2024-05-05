@@ -4,12 +4,13 @@ class Author:
 
     all = []
     
-    def __init__(self, name, age, genre):
+    def __init__(self, name, age, id=None):
         self._name = name
         self._age = age
-        self._genre = genre
-
-        Author.all.append(self)
+        self.id = id
+       
+        
+        # Author.all.append(self)
 
     
     @property
@@ -34,23 +35,44 @@ class Author:
     @property
     def genre(self):
         return self._genre
-
-    @genre.setter
-    def genre(self, genre):
-        if type(genre) == str and len(genre) > 1:
-            self._genre = genre
-        else:
-            raise  ValueError("Enter a valid genre")
-
-    @classmethod
-    def get_all_authors(cls):
-        return Author.all
+    
+    # @classmethod
+    # def get_all_authors(cls):
+    #     return Author.all
 
     def __repr__(self):
-        return f"Name: {self.name}, Age: {self.age}, Genre: {self.genre}"
+        return f"Name: {self.name}, Age: {self.age}"
+    
+    @classmethod
+    def create_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS authors(
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                age INTEGER
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
 
-# king = Author("Stephen King", 76, "horror")
+    @classmethod
+    def drop_table(cls):
+        sql = """
+            DROP TABLE IF EXISTS authors;
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
 
+    def save(self):
+        sql = """
+            INSERT INTO authors (name, age)
+            VALUES (?, ?)
+        """
+
+        CURSOR.execute(sql, (self.name, self.age))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
 
 # print(author.name)
 # print(author.age)
@@ -58,6 +80,6 @@ class Author:
 # print(author)
 # print(Author.all)
 
-# print(Author.get_all_authors())
+
 
  

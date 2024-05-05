@@ -1,15 +1,16 @@
-from __init__ import CURSOR, CONN
-from author import Author
+from models.__init__ import CURSOR, CONN
+from models.author import Author
 
 class Book:
 
     all = []
     
-    def __init__(self, title, page_count, genre, author):
+    def __init__(self, title, page_count, genre, author, id=None):
         self._title = title
         self._page_count = page_count
         self._genre = genre
         self._author = author
+        self._id = id
 
         Book.all.append(self)
 
@@ -63,9 +64,25 @@ class Book:
     
     def __repr__(self):
         return f"Title: {self.title}, Author: {self.author.name}, page_count: {self.page_count}, Genre: {self.genre}"
+    
+    @classmethod
+    def create_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS books(
+                id INTEGER PRIMARY KEY,
+                tilte TEXT,
+                page_count INTEGER,
+                genre TEXT,
+                author TEXT
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+        
+    def drop_table(cls):
+        sql = """
+            DROP TABLE IF EXISTS books;
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
 
-king = Author("Stephen King", 76, "horror")
-
-king_book = Book("11/22/63",  849, "science fiction", king)
-
-print(Book.get_all_books())
