@@ -1,15 +1,15 @@
-# from models.__init__ import CURSOR, CONN
-# from models.author import Author
+from __init__ import CURSOR, CONN
+from author import Author
 
 class Book:
 
     all = []
     
-    def __init__(self, title, author, page_count, genre):
+    def __init__(self, title, page_count, genre, author):
         self._title = title
-        self._author = author
         self._page_count = page_count
-        self.genre = genre
+        self._genre = genre
+        self._author = author
 
         Book.all.append(self)
 
@@ -23,17 +23,6 @@ class Book:
             self._title = title
         else:
             raise ValueError ("Enter valid book title. ")
-
-    @property
-    def author(self):
-        return self._author
-
-    @author.setter
-    def author(self, author):
-        if type(author) == str and len(author) > 1:
-            self._author = author
-        else:
-            raise ValueError("Enter valid book author")
 
     @property
     def page_count(self):
@@ -56,17 +45,27 @@ class Book:
             self._genre = genre
         else:
             raise ValueError("Enter a valid book genre")
+
+    @property
+    def author(self):
+        return self._author
+
+    @author.setter
+    def author(self, author):
+        if isinstance(author, Author):
+            self._author = author
+        else:
+            raise Exception("Author must be an instance class of Author")
+
+    @classmethod
+    def get_all_books(cls):
+        return Book.all
     
     def __repr__(self):
-        return f"Title: {self.title}, Author: {self.author}, page_count: {self.page_count}, Genere: {self.genre}"
+        return f"Title: {self.title}, Author: {self.author.name}, page_count: {self.page_count}, Genre: {self.genre}"
 
-king_book = Book("11/22/63", "Stephen King", 849, "science fiction")
+king = Author("Stephen King", 76, "horror")
 
-Book.all.append(king_book)
+king_book = Book("11/22/63",  849, "science fiction", king)
 
-print(king_book.title)
-print(king_book.author)
-print(king_book.page_count)
-print(king_book)
-
-print(Book.all)
+print(Book.get_all_books())

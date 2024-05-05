@@ -1,4 +1,4 @@
-# from models.__init__ import CURSOR, CONN
+from __init__ import CURSOR, CONN
 
 class Author:
 
@@ -42,40 +42,22 @@ class Author:
         else:
             raise  ValueError("Enter a valid genre")
 
+    @classmethod
+    def get_all_authors(cls):
+        return Author.all
+
     def __repr__(self):
         return f"Name: {self.name}, Age: {self.age}, Genre: {self.genre}"
 
-author = Author("Stephen King", 76, "horror")
+# king = Author("Stephen King", 76, "horror")
 
 
-print(author.name)
-print(author.age)
-print(author.genre)
-print(author)
-print(Author.all)
+# print(author.name)
+# print(author.age)
+# print(author.genre)
+# print(author)
+# print(Author.all)
 
-    # @classmethod
-    # def create_table(cls):
-    #     sql = """
-    #         CREATE TABLE IF NOT EXISTS authors (
-    #         id INTEGER PRIMARY KEY,
-    #         name TEXT)
-    #     """
-    
-    #     CURSOR.execute(sql)
-    #     CONN.commit()
+# print(Author.get_all_authors())
 
-    # def save(self):
-    #     sql = """ 
-    #         INSERT INTO authors (name)
-    #         VALUES ?
-    #     """
-
-    #     CURSOR.execute(sql, (self.name,))
-    #     CONN.commit()
-
-    # @classmethod
-    # def create(cls, name):
-    #     author = cls(name)
-    #     author.save()
-    #     return author
+ 
