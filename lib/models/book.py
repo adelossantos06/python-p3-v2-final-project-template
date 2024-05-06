@@ -1,18 +1,17 @@
 from models.__init__ import CURSOR, CONN
-from models.author import Author
+# from models.author import Author
 
 class Book:
 
-    all = []
+    all = {}
     
-    def __init__(self, title, page_count, genre, author, id=None):
+    def __init__(self, title, page_count, genre, author_id, id=None):
         self._title = title
         self._page_count = page_count
         self._genre = genre
-        self._author = author
-        self._id = id
+        self.author_id = author_id
+        self.id = id
 
-        Book.all.append(self)
 
     @property
     def title(self):
@@ -47,23 +46,19 @@ class Book:
         else:
             raise ValueError("Enter a valid book genre")
 
-    @property
-    def author(self):
-        return self._author
+    # @property
+    # def author(self):
+    #     return self._author
 
-    @author.setter
-    def author(self, author):
-        if isinstance(author, Author):
-            self._author = author
-        else:
-            raise Exception("Author must be an instance class of Author")
-
-    @classmethod
-    def get_all_books(cls):
-        return Book.all
+    # @author.setter
+    # def author(self, author):
+    #     if isinstance(author, Author):
+    #         self._author = author
+    #     else:
+    #         raise Exception("Author must be an instance class of Author")
     
     def __repr__(self):
-        return f"Title: {self.title}, Author: {self.author}, page_count: {self.page_count}, Genre: {self.genre}"
+        return f"Id:{self.id}, Title: {self.title},  page_count: {self.page_count}, Genre: {self.genre}, Author: {self.author_id}"
     
     @classmethod
     def create_table(cls):
@@ -73,7 +68,8 @@ class Book:
                 title TEXT,
                 page_count INTEGER,
                 genre TEXT,
-                author TEXT
+                author_id INTEGER,
+                FOREIGN KEY (author_id) REFERENCES authors(id)
             )
         """
         CURSOR.execute(sql)
@@ -89,14 +85,92 @@ class Book:
 
     def save(self):
         sql = """
-            INSERT INTO books (title, page_count, genre, author)
+            INSERT INTO books (title, page_count, genre, author_id)
             VALUES (?, ?, ?, ?)
         """
-        CURSOR.execute(sql, (self.title, self.page_count, self.genre, self.author))
+        CURSOR.execute(sql, (self.title, self.page_count, self.genre, self.author_id))
         CONN.commit()
 
+        self.id = CURSOR.lastrowid
+
+        Book.all[self.id] = self
+
     @classmethod
-    def create(cls, title, page_count, genre, author):
-        book = cls(title, page_count, genre, author)
+    def create(cls, title, page_count, genre, author_id):
+        book = cls(title, page_count, genre, author_id)
         book.save()
         return book
+
+    def update(self):
+        sql = """
+            UPDATE books
+            SET title = ?, page_count = ?, genre = ?, author_id = ?
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.title, self.page_count, self.genre, self.author_id, self.id))
+        CONN.commit()
+
+    def delete(self):
+        sql = """
+            DELETE FROM books
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.id,))
+        CONN.commit()
+
+        del Book.all[self.id]
+        self.id = None
+
+    @classmethod
+    def instance_from_db(cls, row):
+        book = cls.all.get(row[0])
+
+        if book:
+            book.title = row[1]
+            book.page_count = row[2]
+            book.genre = row[3]
+            book.author_id = row[4]
+        else:
+            book = cls(row[1], row[2], row[3], row[4])
+            book.id = row[0]
+            cls.all[book.id] = book
+        return book
+    
+    @classmethod
+    def get_all(cls):
+        sql = """
+            SELECT * FROM books
+        """
+        rows = CURSOR.execute(sql).fetchall()
+        return [cls.instance_from_db(row)for row in rows]
+
+    @classmethod
+    def find_by_id(cls, id):
+        sql = """
+            SELECT *
+            FROM books
+            WHERE id = ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def find_by_title(cls, title):
+        sql = """
+            SELECT *
+            FROM books
+            WHERE title = ?
+        """
+        row = CURSOR.execute(sql, (title,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
+    def author(self):
+        from models.author import Author
+        sql = """
+            SELECT * FROM authors
+            WHERE id = ?
+        """
+
+        row = CURSOR.execute(sql, (self.author_id,)).fetchone()
+        author = Author.instance_from_db(row)
+        return author

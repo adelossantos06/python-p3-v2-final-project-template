@@ -15,25 +15,36 @@ def reset_database():
 
 reset_database()
 
-king = Author("Stephen King", 76)
-book = Book("IT", 846, "horror", "Stephen King")
-print(king)
-print (book)
+# king = Author("Stephen King", 76)
 
-king.save()
-book.save()
-print(king)
-print(book)
+# print(king)
+
+
+# king.save()
+
+# print(king)
+
+
+# picoult = Author.create("Jodi Picoult", 46)
+
+
+# rowling = Author.create("J.K. Rowling", 58)
+
+# rowling.name = "JK Rowling"
+# rowling.age = 60
+# rowling.update()
+
+# owens = Author.create("Delia Owens", 75)
+# owens.delete()
+
+# book_one = Book.create("IT", 856, "horror", "Stephen King")
+# print(book_one)
 
 picoult = Author.create("Jodi Picoult", 46)
-book_two = Book.create ("Mad Honey", 452, "saga", "Jodi Picoult")
+king = Author.create("Stephen King", 75)
+book_one = Book.create("Mad Honey", 456, "saga", picoult.id)
+book_two = Book.create("Small Great Things", 574, "saga", picoult.id)
+book_three = Book.create("IT", 856, "horror", king.id)
 
-rowling = Author.create("J.K. Rowling", 58)
 
-rowling.name = "JK Rowling"
-rowling.age = 60
-rowling.update()
-
-owens = Author.create("Delia Owens", 75)
-owens.delete()
 ipdb.set_trace()

@@ -1,16 +1,14 @@
 from models.__init__ import CURSOR, CONN
+from models.book import Book
 
 class Author:
 
-    all = []
+    all = {}
     
     def __init__(self, name, age, id=None):
         self._name = name
         self._age = age
         self.id = id
-       
-        
-        Author.all.append(self)
 
     
     @property
@@ -35,10 +33,6 @@ class Author:
     @property
     def genre(self):
         return self._genre
-    
-    @classmethod
-    def get_all_authors(cls):
-        return Author.all
 
     def __repr__(self):
         return f"Id:{self.id}  Name: {self.name}, Age: {self.age}"
@@ -98,3 +92,59 @@ class Author:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+
+        del Author.all[self.id]
+        self.id = None
+    
+    @classmethod
+    def instance_from_db(cls, row):
+        author = cls.all.get(row[0])
+
+        if author:
+            author.name = row[1]
+            author.age = row[2]
+        else:
+            author = cls(row[1], row[2])
+            author.id = row [0]
+            cls.all[author.id] = author
+        return author
+
+    @classmethod
+    def get_all(cls):
+        sql = """
+            SELECT * FROM authors
+        """
+        rows = CURSOR.execute(sql).fetchall()
+        return [cls.instance_from_db(row)for row in rows]
+
+    @classmethod
+    def find_by_id(cls, id):
+        sql = """
+            SELECT *
+            FROM authors
+            WHERE id = ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def find_by_name(cls, name):
+        sql = """
+            SELECT *
+            FROM authors
+            WHERE name = ?
+        """
+        row = CURSOR.execute(sql, (name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
+    def books(self):
+        # from models.book import Book
+
+        sql = """
+            SELECT * FROM books
+            WHERE author_id = ?
+        """
+
+        rows = CURSOR.execute(sql, (self.id,)).fetchall()
+        print(rows)
+        return [Book.instance_from_db(row) for row in rows]
