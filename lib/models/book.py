@@ -46,17 +46,6 @@ class Book:
         else:
             raise ValueError("Enter a valid book genre")
 
-    # @property
-    # def author(self):
-    #     return self._author
-
-    # @author.setter
-    # def author(self, author):
-    #     if isinstance(author, Author):
-    #         self._author = author
-    #     else:
-    #         raise Exception("Author must be an instance class of Author")
-    
     def __repr__(self):
         return f"Id:{self.id}, Title: {self.title},  page_count: {self.page_count}, Genre: {self.genre}, Author: {self.author_id}"
     

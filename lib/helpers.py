@@ -2,13 +2,14 @@
 from models.author import Author
 from models.book import Book
 
+
+
 def list_authors():
+    print ("0. Go back to the main menu")
     authors = Author.get_all()
     for author in authors:
-        print(author)
+        print( f"{author.id}. {author.name}")
 
-def helper_11():
-    print("Performing useful function#1.")
 
 
 def exit_program():
