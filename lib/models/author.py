@@ -17,10 +17,8 @@ class Author:
 
     @name.setter
     def name(self, name):
-        if type(name) == str and len(name) > 1:
-            self._name = name
-        else:
-            raise  ValueError("Enter a valid author name")
+         self._name = name
+        
 
     @property
     def age(self):
