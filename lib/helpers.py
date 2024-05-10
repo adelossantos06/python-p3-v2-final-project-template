@@ -14,7 +14,9 @@ def list_authors():
         print("There are no authors to list.")
 
 def add_authors():
+    print("***")
     name = input("Author's name: ")
+    print("***")
     age = int(input("Author's age: "))
     new_author = Author(name = name, age = age)
     new_author.create(name, age)
@@ -24,7 +26,34 @@ def delete_author():
     delete_choice = input("> ")
     delete_author = authors[int(delete_choice) -1]
     delete_author.delete()
-    print("Author deleted successfully!!")
+    print("Author deleted successfully!")
+
+def update_author():
+    print("***")
+    print("Which author would you like to update?")
+    authors = list_authors()
+    update_choice = input("> ")
+    update_author = authors[int(update_choice) -1]
+    print("***")
+    name_or_age = input("Would like to update the author name or age? ")
+    print("***")
+    if name_or_age == "name":
+        print("***")
+        new_name = input("Update author name: ")
+        update_author.name = new_name
+    elif name_or_age == "age":
+        print("***")
+        new_age = input("Update author age: ")
+        update_author.age = new_age
+    else:
+        print("***")
+        print("Invalid input")
+        print("***")
+    update_author.update()
+    print("***")
+    print("Author updated sucessfully!")
+    print("***")
+
 
 
 
