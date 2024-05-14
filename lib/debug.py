@@ -47,4 +47,5 @@ book_two = Book.create("Small Great Things", 574, "saga", picoult.id)
 book_three = Book.create("IT", 856, "horror", king.id)
 
 
+
 ipdb.set_trace()

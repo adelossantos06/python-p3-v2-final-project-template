@@ -21,12 +21,22 @@ def add_authors():
     new_author = Author(name = name, age = age)
     new_author.create(name, age)
 
+
 def delete_author():
-    authors = list_authors()
-    delete_choice = input("> ")
-    delete_author = authors[int(delete_choice) -1]
-    delete_author.delete()
-    print("Author deleted successfully!")
+    authors = Author.get_all()
+    books = Book.get_all()
+    choice = input("> ")
+
+
+    delete_author = authors[int(choice) -1]
+   
+    for book in books:
+        if delete_author.id == book.id:
+            book.delete()
+            delete_author.delete()
+            print("Author and their books removed successfully!")
+    
+   
 
 def update_author():
     print("***")
@@ -61,6 +71,7 @@ def list_all_books():
         author = book.author()
         author_name = author.name if author else "Unknown" 
         print(f"{i}. Title: {book.title}, Page count: {book.page_count}, Genre: {book.genre}, Author: {author_name}")
+    return books
 
     if not books:
         print("There are no books to list.")
@@ -98,10 +109,11 @@ def delete_book_by_author(author):
     delete_book.delete()
     print("Book deleted successfully!")
 
-def update_book_by_author():
+def update_book_by_author(author):
     print("***")
     print("Which book would you like to update: ")
-    books = list_all_books()
+    books = list_books_by_author(author)
+    
     choice = input("> ")
     update_book = books[int(choice) -1]
     print("***")
@@ -121,7 +133,7 @@ def update_book_by_author():
         print("Invalid input")
         print("***")
         return
-        
+
     update_book.update()
     print("***")
     print("Book updated sucessfully!")

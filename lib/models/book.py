@@ -28,13 +28,17 @@ class Book:
     def page_count(self):
         return self._page_count
     
+    # @page_count.setter
+    # def page_count(self, page_count):
+    #     if isinstance(page_count, int):
+    #         self._page_count = page_count
+    #     else:
+    #         raise ValueError ("Enter valid page count. ")
+
     @page_count.setter
     def page_count(self, page_count):
-        if type(page_count) == int and page_count > 0:
             self._page_count = page_count
-        else:
-            raise ValueError("Enter a valid page count")
-
+       
     @property
     def genre(self):
         return self._genre
