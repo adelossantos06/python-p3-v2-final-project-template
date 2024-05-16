@@ -14,9 +14,9 @@ def list_authors():
         print("There are no authors to list.")
 
 def add_authors():
-    print("***")
+    space()
     name = input("Author's name: ")
-    print("***")
+    space()
     age = int(input("Author's age: "))
     new_author = Author(name = name, age = age)
     new_author.create(name, age)
@@ -24,17 +24,16 @@ def add_authors():
 
 def delete_author():
     authors = Author.get_all()
-    books = Book.get_all()
     choice = input("> ")
 
 
-    delete_author = authors[int(choice) -1]
+    author = authors[int(choice) -1]
    
-    for book in books:
-        if delete_author.id == book.id:
-            book.delete()
-            delete_author.delete()
-            print("Author and their books removed successfully!")
+    for book in author.books():
+        book.delete()
+        
+    author.delete()
+    print("Author and their books removed successfully!")
     
    
 
@@ -77,17 +76,19 @@ def list_all_books():
         print("There are no books to list.")
 
 def list_books_by_author(author):
-    books = Book.get_all()
+    space()
+    books = author.books()
+    if books:
+        for i, book in enumerate(books, start=1):
 
-    author_books = [book for book in books if book.author_id == author.id]
-
-    if author_books:
-        for i, book in enumerate(author_books, start=1):
             print(f"{i}. Title: {book.title}, Page Count: {book.page_count}, Genre: {book.genre}")
-        return author_books
+        space()
+        return books
     else:
+        space()
         print("***")
         print("There are no books by this author.")
+    space()
   
 
 
@@ -138,6 +139,9 @@ def update_book_by_author(author):
     print("***")
     print("Book updated sucessfully!")
     print("***")
+
+def space():
+    print(" ")
 
 def exit_program():
     print("Goodbye!")

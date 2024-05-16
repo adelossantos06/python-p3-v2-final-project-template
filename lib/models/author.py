@@ -6,8 +6,8 @@ class Author:
     all = {}
     
     def __init__(self, name, age, id=None):
-        self._name = name
-        self._age = age
+        self.name = name
+        self.age = age
         self.id = id
 
     
@@ -144,5 +144,4 @@ class Author:
         """
 
         rows = CURSOR.execute(sql, (self.id,)).fetchall()
-        print(rows)
         return [Book.instance_from_db(row) for row in rows]

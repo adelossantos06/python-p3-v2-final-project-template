@@ -6,9 +6,9 @@ class Book:
     all = {}
     
     def __init__(self, title, page_count, genre, author_id, id=None):
-        self._title = title
-        self._page_count = page_count
-        self._genre = genre
+        self.title = title
+        self.page_count = page_count
+        self.genre = genre
         self.author_id = author_id
         self.id = id
 
