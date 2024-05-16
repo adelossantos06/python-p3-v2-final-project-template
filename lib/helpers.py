@@ -38,30 +38,30 @@ def delete_author():
    
 
 def update_author():
-    print("***")
+    space()
     print("Which author would you like to update?")
     authors = list_authors()
     update_choice = input("> ")
     update_author = authors[int(update_choice) -1]
-    print("***")
+    space()
     name_or_age = input("Would like to update the author name or age? ")
-    print("***")
+    space()
     if name_or_age == "name":
-        print("***")
+        space()
         new_name = input("Update author name: ")
         update_author.name = new_name
     elif name_or_age == "age":
-        print("***")
+        space()
         new_age = input("Update author age: ")
         update_author.age = new_age
     else:
-        print("***")
+        space()
         print("Invalid input")
-        print("***")
+        space()
     update_author.update()
-    print("***")
+    space()
     print("Author updated sucessfully!")
-    print("***")
+    space()
 
 def list_all_books():
     books = Book.get_all()
@@ -86,38 +86,41 @@ def list_books_by_author(author):
         return books
     else:
         space()
-        print("***")
         print("There are no books by this author.")
     space()
   
 
 
 def add_book_by_author(author):
-    print("***")
+    space()
     title = input("Book's title: ")
     page_count = int(input("Book's page count: "))
     genre = input("Book's genre: ")
-    print("***")
+    space()
     new_book= Book(title = title, page_count = page_count, genre = genre, author_id=author.id)
     new_book.create(title, page_count, genre, author.id)
     print("Book added successfully!")
+    space()
 
 def delete_book_by_author(author):
     books = list_books_by_author(author)
     print("Which book would you like to delete?")
     choice = input("> ")
-    delete_book = books[int(choice) -1]
-    delete_book.delete()
+    book = books[int(choice) -1]
+    book.delete()
     print("Book deleted successfully!")
+    space()
+    
+    
 
 def update_book_by_author(author):
-    print("***")
+    space()
     print("Which book would you like to update: ")
     books = list_books_by_author(author)
     
     choice = input("> ")
     update_book = books[int(choice) -1]
-    print("***")
+    space()
     update_choice = input("Do you want to update the title, page count or genre? ")
 
     if update_choice == "title":
@@ -130,15 +133,15 @@ def update_book_by_author(author):
         new_genre = input("Update the book genre: ")
         update_book.genre = new_genre
     else:
-        print("***")
+        space()
         print("Invalid input")
-        print("***")
+        space()
         return
 
     update_book.update()
-    print("***")
+    space()
     print("Book updated sucessfully!")
-    print("***")
+    space()
 
 def space():
     print(" ")

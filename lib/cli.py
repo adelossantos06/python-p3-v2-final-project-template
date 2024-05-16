@@ -22,30 +22,14 @@ def main():
         choice = input("> ")
         if choice == "1":
             space()
-            #submenu_list_authors()
             add_update_delete_submenu()
             space()
-            # print("***")
-            # list_authors()
-            # print("***")
-            # print("Select from the options below: ")
-            # add_update_delete_submenu()
         elif choice == "2":
             space()
             list_all_books()
             space()
-            #print("***")
-            #add_update_delete_submenu()
-            #submenu_list_authors()
-            
-            #print("***")
         elif choice == "3":
             exit_program()
-            #print("***")
-            l#ist_all_books()
-            #print("***")
-        #elif choice == "4":
-         #   exit_program()
         else:
             print("Invalid choice")
 
@@ -68,6 +52,8 @@ def submenu_list_authors():
             space()
         
             author_menu(author)
+        else:
+            print("Invalid input")
            
 
             
@@ -75,9 +61,8 @@ def submenu_list_authors():
 def menu():
     space()
     print("Please select an option:")
-    # print("1. List all authors")
     print("1. Author Menu")
-    print("2. List books")
+    print("2. Book Menu")
     print("3. Exit program")
    
 
@@ -85,34 +70,36 @@ def add_update_delete_submenu():
     while True:
         print("Select an option: ")
         print("1. List authors")
-        print("2. View author details") #TODO
-        print("2. Add an author")
-        print("3. Delete an author")
-        print("4. Update an author")
-        print("5. Go back to the main menu")
-        print("6. Exit the program")
+        print("2. View author details") 
+        print("3. Add an author")
+        print("4. Delete an author")
+        print("5. Update an author")
+        print("6. Go back to the main menu")
+        print("7. Exit the program")
         choice = input("> ")
         if choice == "1":
             space()
             list_authors()
             space()
         elif choice == "2":
+            submenu_list_authors()
+        elif choice == "3":
             add_authors()
             space()
             print("Author added successfully.")
             space()
-        elif choice == "3":
+        elif choice == "4":
             space()
             print("Pick an author you would like to remove:")
             list_authors()
             space()
             delete_author()
             space()
-        elif choice == "4":
-            update_author()
         elif choice == "5":
-            main()
+            update_author()
         elif choice == "6":
+            main()
+        elif choice == "7":
             exit_program()
         else:
             print("Invalid choice")
@@ -144,8 +131,9 @@ def author_menu(author):
         elif choice == "6":
             exit_program()
         else:
+            space()
             print("Invalid choice")
-    
+            space()
 
 
 if __name__ == "__main__":
