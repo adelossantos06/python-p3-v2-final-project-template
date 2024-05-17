@@ -1,9 +1,6 @@
 from models.__init__ import CURSOR, CONN
-# from models.author import Author
 
 class Book:
-
-    all = {}
     
     def __init__(self, title, page_count, genre, author_id, id=None):
         self.title = title
@@ -19,21 +16,15 @@ class Book:
     
     @title.setter
     def title(self, title):
-        if type(title) == str:
+        if isinstance(title, str):
             self._title = title
         else:
-            raise ValueError ("Enter valid book title. ")
+            raise ValueError("Enter a valid book title")
 
     @property
     def page_count(self):
         return self._page_count
     
-    # @page_count.setter
-    # def page_count(self, page_count):
-    #     if isinstance(page_count, int):
-    #         self._page_count = page_count
-    #     else:
-    #         raise ValueError ("Enter valid page count. ")
 
     @page_count.setter
     def page_count(self, page_count):
@@ -45,13 +36,14 @@ class Book:
 
     @genre.setter
     def genre(self, genre):
-        if type(genre) == str and len(genre) > 1:
+        if isinstance(genre, str) and len(genre) > 1:
             self._genre = genre
         else:
             raise ValueError("Enter a valid book genre")
 
+
     def __repr__(self):
-        return f"Id:{self.id}, Title: {self.title},  page_count: {self.page_count}, Genre: {self.genre}, Author: {self.author_id}"
+       return f"Id:{self.id}, Title: {self.title},  page_count: {self.page_count}, Genre: {self.genre}, Author: {self.author_id}"
     
     @classmethod
     def create_table(cls):
@@ -86,7 +78,6 @@ class Book:
 
         self.id = CURSOR.lastrowid
 
-        Book.all[self.id] = self
 
     @classmethod
     def create(cls, title, page_count, genre, author_id):
@@ -111,24 +102,13 @@ class Book:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        del Book.all[self.id]
         self.id = None
 
     @classmethod
     def instance_from_db(cls, row):
-        book = cls.all.get(row[0])
-
-        if book:
-            book.title = row[1]
-            book.page_count = row[2]
-            book.genre = row[3]
-            book.author_id = row[4]
-        else:
-            book = cls(row[1], row[2], row[3], row[4])
-            book.id = row[0]
-            cls.all[book.id] = book
-        return book
+        return cls(row[1], row[2], row[3], row[4], row[0])
     
+
     @classmethod
     def get_all(cls):
         sql = """
@@ -165,5 +145,4 @@ class Book:
         """
 
         row = CURSOR.execute(sql, (self.author_id,)).fetchone()
-        author = Author.instance_from_db(row)
-        return author
+        return Author.instance_from_db(row) if row else None

@@ -25,9 +25,7 @@ def main():
             add_update_delete_submenu()
             space()
         elif choice == "2":
-            space()
-            list_all_books()
-            space()
+            book_menu()
         elif choice == "3":
             exit_program()
         else:
@@ -60,7 +58,7 @@ def submenu_list_authors():
 
 def menu():
     space()
-    print("Please select an option:")
+    print("Select an option:")
     print("1. Author Menu")
     print("2. Book Menu")
     print("3. Exit program")
@@ -135,6 +133,21 @@ def author_menu(author):
             print("Invalid choice")
             space()
 
+def book_menu():
+    space()
+    print("Select an option: ")
+    print("1. List all books")
+    print("2. Exit program")
+    choice = input("> ")
+
+    if choice == "1":
+        space()
+        list_all_books()
+        space()
+    elif choice == "2":
+        exit_program()
+    else:
+        print("Invalid input")
 
 if __name__ == "__main__":
     main()
