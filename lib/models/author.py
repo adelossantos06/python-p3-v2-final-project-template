@@ -34,8 +34,8 @@ class Author:
     def genre(self, genre):
         self._genre = genre
 
-   # def __repr__(self):
-     #   return f"Id:{self.id}  Name: {self.name}, Age: {self.age}"
+   def __repr__(self):
+       return f"Id:{self.id}  Name: {self.name}, Age: {self.age}"
     
     @classmethod
     def create_table(cls):
@@ -93,22 +93,12 @@ class Author:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        # del Author.all[self.id]
         self.id = None
     
     @classmethod
     def instance_from_db(cls, row):
         return cls(row[1], row[2],row[0])
-        # author = cls.all.get(row[0])
 
-        # if author:
-        #     author.name = row[1]
-        #     author.age = row[2]
-        # else:
-        #     author = cls(row[1], row[2])
-        #     author.id = row [0]
-        #     cls.all[author.id] = author
-        # return author
 
     @classmethod
     def get_all(cls):
@@ -139,7 +129,7 @@ class Author:
         return cls.instance_from_db(row) if row else None
 
     def books(self):
-        # from models.book import Book
+
 
         sql = """
             SELECT * FROM books
