@@ -29,16 +29,19 @@ def main():
         elif choice == "3":
             exit_program()
         else:
-            print("Invalid choice")
+            space()
+            print("Invalid input")
+            space()
 
 def submenu_list_authors():
     while True:
         space()
+        authors = list_authors()
+        if not authors:
+            return
         print("Select an author below to see details:")
         print("0. Go back to the main menu")
-        authors = list_authors()
         space()
-        
         choice = input("> ")
         author = authors[int(choice) -1]
         
@@ -62,6 +65,7 @@ def menu():
     print("1. Author Menu")
     print("2. Book Menu")
     print("3. Exit program")
+    space()
    
 
 def add_update_delete_submenu():
@@ -84,12 +88,7 @@ def add_update_delete_submenu():
         elif choice == "3":
             add_authors()
             space()
-            print("Author added successfully.")
-            space()
         elif choice == "4":
-            space()
-            print("Pick an author you would like to remove:")
-            list_authors()
             space()
             delete_author()
             space()
@@ -100,7 +99,9 @@ def add_update_delete_submenu():
         elif choice == "7":
             exit_program()
         else:
-            print("Invalid choice")
+            space()
+            print("Invalid input")
+            space()
 
 
 
@@ -130,24 +131,26 @@ def author_menu(author):
             exit_program()
         else:
             space()
-            print("Invalid choice")
+            print("Invalid input")
             space()
 
 def book_menu():
-    space()
-    print("Select an option: ")
-    print("1. List all books")
-    print("2. Exit program")
-    choice = input("> ")
+    while True:
+        space()
+        print("Select an option: ")
+        print("1. List all books")
+        print("2. Exit program")
+        choice = input("> ")
 
-    if choice == "1":
-        space()
-        list_all_books()
-        space()
-    elif choice == "2":
-        exit_program()
-    else:
-        print("Invalid input")
+        if choice == "1":
+            space()
+            list_all_books()
+            space()
+        elif choice == "2":
+            exit_program()
+        else:
+            space()
+            print("Invalid input")
 
 if __name__ == "__main__":
     main()
