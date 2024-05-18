@@ -15,7 +15,9 @@ class Author:
 
     @name.setter
     def name(self, name):
-         self._name = name
+        if not isinstance(name, str):
+            raise ValueError("Name must be a non-empty string")
+        self._name = name
         
         
     @property
@@ -24,15 +26,9 @@ class Author:
 
     @age.setter
     def age(self, age):
+        if not isinstance(age, int) or age <= 0:
+            raise ValueError("Age must be a positive integer.")
         self._age = age
-
-    @property
-    def genre(self):
-        return self._genre
-
-    @genre.setter
-    def genre(self, genre):
-        self._genre = genre
 
     def __repr__(self):
        return f"Id:{self.id}  Name: {self.name}, Age: {self.age}"
