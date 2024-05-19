@@ -16,10 +16,9 @@ class Book:
     
     @title.setter
     def title(self, title):
-        if isinstance(title, str):
-            self._title = title
-        else:
-            raise ValueError("Enter a valid book title")
+        if not isinstance(title, str):
+            raise ValueError("Title must be a non-empty string.")
+        self._title = title
 
     @property
     def page_count(self):
@@ -28,7 +27,9 @@ class Book:
 
     @page_count.setter
     def page_count(self, page_count):
-            self._page_count = page_count
+        if not isinstance(page_count, int):
+            raise ValueError("Page count must be a positive integer")
+        self._page_count = page_count
        
     @property
     def genre(self):
@@ -36,10 +37,9 @@ class Book:
 
     @genre.setter
     def genre(self, genre):
-        if isinstance(genre, str) and len(genre) > 1:
-            self._genre = genre
-        else:
-            raise ValueError("Enter a valid book genre")
+        if not isinstance(genre, str):
+            raise ValueError("Genre must be a non-empty string.")
+        self._genre = genre
 
 
     def __repr__(self):

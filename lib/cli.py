@@ -11,12 +11,15 @@ from helpers import (
     list_books_by_author,
     delete_book_by_author,
     update_book_by_author, 
-    space
+    space,
+    add_book_bookmenu,
+    update_book_bookmenu,
+    delete_book_bookmenu
     
 )
 
 
-def main():
+def main(author=None):
     while True:
         menu()
         choice = input("> ")
@@ -25,7 +28,7 @@ def main():
             add_update_delete_submenu()
             space()
         elif choice == "2":
-            book_menu()
+            book_menu(author)
         elif choice == "3":
             exit_program()
         else:
@@ -36,16 +39,24 @@ def main():
 def submenu_list_authors():
     while True:
         space()
+        print("Select an author to see details:")
+        print("0. Go back to the main menu")
         authors = list_authors()
         if not authors:
             return
-        print("Select an author below to see details:")
-        print("0. Go back to the main menu")
         space()
-        choice = input("> ")
+        
+        choice = int(input("> "))
+        
+        if choice > len(authors):
+            space()
+            print("Invlid input")
+            space()
+            return
+        
         author = authors[int(choice) -1]
         
-        if choice == "0":
+        if choice == 0:
             main()
         elif choice:
             space()
@@ -134,12 +145,17 @@ def author_menu(author):
             print("Invalid input")
             space()
 
-def book_menu():
+def book_menu(author=None):
     while True:
         space()
         print("Select an option: ")
         print("1. List all books")
-        print("2. Exit program")
+        print("2. Add a book")  
+        print("3. Update a book")   #TODO
+        print("4. Delete a book")   #TODO
+        print("5. Go back to the main menu")   #TODO
+        print("6. Exit program")    
+        space()
         choice = input("> ")
 
         if choice == "1":
@@ -147,6 +163,20 @@ def book_menu():
             list_all_books()
             space()
         elif choice == "2":
+            space()
+            add_book_bookmenu(author)
+            space()
+        elif choice == "3":
+            space()
+            update_book_bookmenu(author)
+            space()
+        elif choice == "4":
+            space()
+            delete_book_bookmenu(author)
+            space()
+        elif choice == "5":
+            main(author)
+        elif choice == "6":
             exit_program()
         else:
             space()

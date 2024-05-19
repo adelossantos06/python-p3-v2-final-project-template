@@ -52,7 +52,6 @@ def update_author():
     authors = list_authors()
     
     if not authors: 
-        # print("There are no authors to update.")
         return
     print("Which author would you like to update?")
     space()
@@ -148,7 +147,6 @@ def update_book_by_author(author):
     books = list_books_by_author(author)
     
     if not books:
-        print("There are no books to update.")
         return
     space()
     choice = int(input("> "))
@@ -179,9 +177,63 @@ def update_book_by_author(author):
     print("Book updated sucessfully!")
     space()
 
+def add_book_bookmenu(author):
+    space()
+    print("Select an author to add a book: ")
+    authors = list_authors()
+    space()
+    choice = int(input("> "))
+    if choice > len(authors):
+        space()
+        print("Invlid input")
+        return
+    author = authors[int(choice) -1]
+
+    if choice:
+        add_book_by_author(author)
+    else:
+        print("Invalid input")
+
+def update_book_bookmenu(author):
+    space()
+    print("Select an author to update a book: ")
+    authors = list_authors()
+    space()
+    choice = int(input("> "))
+    if choice > len(authors):
+        space()
+        print("Invlid input")
+        return
+    author = authors[int(choice) -1]
+
+    if choice:
+        update_book_by_author(author)
+    else:
+        print("Invalid input")
+
+
+def delete_book_bookmenu(author):
+    space()
+    print("Select an author to delete a book: ")
+    authors = list_authors()
+    space()
+    choice = int(input("> "))
+    if choice > len(authors):
+        space()
+        print("Invlid input")
+        return
+    author = authors[int(choice) -1]
+
+    if choice:
+        delete_book_by_author(author)
+    else:
+        print("Invalid input")
+
 def space():
     print(" ")
 
 def exit_program():
+    space()
     print("Goodbye!")
+    space()
     exit()
