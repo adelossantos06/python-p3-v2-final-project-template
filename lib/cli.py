@@ -40,7 +40,7 @@ def submenu_list_authors():
     while True:
         space()
         print("Select an author to see details:")
-        print("0. Go back to the main menu")
+        print("0. Go back to author menu")
         authors = list_authors()
         if not authors:
             return
@@ -57,7 +57,8 @@ def submenu_list_authors():
         author = authors[int(choice) -1]
         
         if choice == 0:
-            main()
+            space()
+            add_update_delete_submenu()
         elif choice:
             space()
             print(f"Name: {author.name}, Age: {author.age}")
@@ -89,7 +90,9 @@ def add_update_delete_submenu():
         print("5. Update an author")
         print("6. Go back to the main menu")
         print("7. Exit the program")
+        space()
         choice = input("> ")
+
         if choice == "1":
             space()
             list_authors()
@@ -125,6 +128,7 @@ def author_menu(author):
         print(f"4. Delete a book by {author.name}")
         print("5. Go back to author list")
         print("6. Exit the program")
+        space()
         choice = input("> ")
 
         if choice == "1":
@@ -151,9 +155,9 @@ def book_menu(author=None):
         print("Select an option: ")
         print("1. List all books")
         print("2. Add a book")  
-        print("3. Update a book")   #TODO
-        print("4. Delete a book")   #TODO
-        print("5. Go back to the main menu")   #TODO
+        print("3. Update a book")   
+        print("4. Delete a book")  
+        print("5. Go back to the main menu")   
         print("6. Exit program")    
         space()
         choice = input("> ")

@@ -148,7 +148,6 @@ def update_book_by_author(author):
     
     if not books:
         return
-    space()
     choice = int(input("> "))
     if choice < 1 or choice > len(books):
         print("Invalid input")
